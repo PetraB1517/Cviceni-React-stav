@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './ukazatel-uspechu.css'
 
 // Děláš jednoduchou komponentu, která ukazuje "progress bar",
@@ -19,18 +19,27 @@ import './ukazatel-uspechu.css'
 // Nastav prvku `ukazatel-uspechu__postup` šířku podle stavové proměnné.
 
 const UkazatelPokroku = ({ barva }) => {
+
+	const [progress, setProgress] = useState(0);
+
+	const increase = () => {
+		if (progress < 100) {
+			setProgress(progress + 10);			
+		}
+	}
+
 	return (
 		<div className="ukazatel-uspechu">
 			<div className="ukazatel-uspechu__ramecek">
 				<div
 					className="ukazatel-uspechu__postup"
 					style={{
-						width: '40%',
-						backgroundColor: 'red',
+						width:` ${progress}%`,
+						backgroundColor:barva,
 					}}
 				></div>
 			</div>
-			<button>postoupit o 10 %</button>
+			<button disabled={progress==100} onClick={ ()=> increase()}>postoupit o 10 %</button>
 		</div>
 	)
 }

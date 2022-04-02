@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useStates} from 'react'
 import './ukol.css'
 
 // Děláš jednoduchou komponentu zobrazující úkoly,
@@ -16,11 +16,18 @@ import './ukol.css'
 // Zadání 3:
 // Je-li úkol splněný, nerenderuj tlačítko a k `li` přidej navíc třídu `ukol--splnen`.
 
-const Ukol = ({ nazev }) => {
+const Ukol = ({ nazev },{key}) => {
+	key = {nazev};
+	const [splneno, setSplneno]= useState(false);
+
+	const spln = () => {
+		setSplneno(true);
+	}
+
 	return (
-		<li className="ukol">
+		<li className={splneno ? "ukol ukol--splnen" :"ukol"}>
 			<span className="ukol__nazev">{nazev}</span>
-			<button className="ukol__akce">splnit</button>
+			<button className="ukol__akce" disabled = {splneno} onClick={() => { spln() }}>splnit</button>
 		</li>
 	)
 }
@@ -28,7 +35,16 @@ const Ukol = ({ nazev }) => {
 const Uloha6 = () => {
 	const ukoly = ['Zamést', 'Pověsit prádlo', 'Umýt okna', 'Vynést koš']
 
-	return <ul>{ukoly}</ul>
+	return <ul> { ukoly.map(item => {  
+        return (
+          <Ukol 
+            nazev={item}
+			key={item}
+			
+          />
+        )})}
+		
+		</ul>
 }
 
 export default Uloha6;
